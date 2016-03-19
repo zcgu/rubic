@@ -18,7 +18,7 @@ public class Face {
         int hashCode = 0;
 
         for (int i = 0; i < 9; i++) {
-            hashCode += faceSideList.indexOf(faceSides.get(i)) * Math.pow(10, i);
+            hashCode += faceSideList.indexOf(faceSides.get(i)) * i;
         }
 
         return hashCode;
@@ -29,6 +29,13 @@ public class Face {
         if (getClass() != object.getClass()) return false;
 
         return this.faceSides.equals(((Face) object).faceSides);
+    }
+
+    @Override
+    public Object clone() {
+        Face newFace = new Face(faceSides.get(4));
+        newFace.faceSides = new ArrayList<>(this.faceSides);
+        return newFace;
     }
 
     @Override

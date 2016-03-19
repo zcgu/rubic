@@ -22,6 +22,12 @@ public class Model {
     public Object clone() {
         Model newModel = new Model();
 
+        for (FaceSide faceSide : FaceSide.values()) {
+            newModel.faces.put(faceSide, (Face) this.faces.get(faceSide).clone());
+        }
+
+        newModel.lastMove = this.lastMove;
+
         return newModel;
     }
 
@@ -34,7 +40,30 @@ public class Model {
             res += faces.get(faceSide).toString();
         }
 
+        res += "\n";
         return res;
+    }
+
+    @Override
+    public int hashCode() {
+        int res = 0;
+        for (FaceSide faceSide : FaceSide.values()) {
+            res += faces.get(faceSide).hashCode();
+        }
+        return res;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (getClass() != object.getClass()) return false;
+
+        Model other = (Model) object;
+
+        for (FaceSide faceSide : FaceSide.values()) {
+            if (!other.faces.get(faceSide).equals(faces.get(faceSide))) return false;
+        }
+
+        return true;
     }
 
     public void performMove(Move move) {
